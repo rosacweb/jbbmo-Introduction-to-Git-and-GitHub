@@ -247,7 +247,6 @@ function ProductList() {
         setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
         setShowCart(false); // Hide the cart when navigating to About Us
     };
-
     const handleContinueShopping = (e) => {
         e.preventDefault();
         setShowCart(false);
@@ -259,18 +258,21 @@ function ProductList() {
             ...prevState,
             [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
         }));
-        console.log(addedToCart)
+
     }
     useEffect(() => {
         let total = 0
-        if (cart.length > 0) {
-            cart.map((item) => {
-                console.log(item)
-                return total += item.quantity
-            })
-        }
+        setAddedToCart({})
+        cart.map((item) => {
+            if (addedToCart[item.name]) {
+                setAddedToCart((prevState) => ({
+                    ...prevState,
+                    [item.name]: true, // Set the product name as key and value as true to indicate it's added to cart
+                }));
+            }
+            total += item.quantity
+        })
         setTotalQuantity(total)
-
     }, [cart])
 
 
@@ -302,26 +304,26 @@ function ProductList() {
                         return (
 
                             <div key={index}>
-                            <h1><span>{item.category}</span></h1>
-                            <div className="product-list">
-                                {item.plants.map((plant, plantIndex) => (
-                                    <div  className={`product-card ${addedToCart[plant.name] ? 'disabled' : ''}`}key={plantIndex}>
-                                        <img className="product-image" src={plant.image} alt={plant.name} />
-                                        <div className="product-title">{plant.name}</div>
-                                        <div className="product-price">{plant.cost}</div>
-                                        <div className="product-description">{plant.description}</div>
-                                          
-                                          <button
-                                          className={`product-button ${addedToCart[plant.name] ? 'disabled' : ''}`}
-                                          onClick={() => handleAddToCart(plant)}
-                                          disabled={addedToCart[plant.name]}
-                                        >
-                                            Add to Cart
-                                        </button> 
-                                    </div>
-                                ))}
+                                <h1><span>{item.category}</span></h1>
+                                <div className="product-list">
+                                    {item.plants.map((plant, plantIndex) => (
+                                        <div className={`product-card ${addedToCart[plant.name] ? 'disabled' : ''}`} key={plantIndex}>
+                                            <img className="product-image" src={plant.image} alt={plant.name} />
+                                            <div className="product-title">{plant.name}</div>
+                                            <div className="product-price">{plant.cost}</div>
+                                            <div className="product-description">{plant.description}</div>
+
+                                            <button
+                                                className={`product-button ${addedToCart[plant.name] ? 'disabled' : ''}`}
+                                                onClick={() => handleAddToCart(plant)}
+                                                disabled={addedToCart[plant.name]}
+                                            >
+                                                Add to Cart
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
                         )
                     })}
 
