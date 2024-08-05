@@ -84,7 +84,7 @@ body {
 }
 
 /* Pseudo-classes - Hover effect on product button */
-.product-card:hover {
+.product-card:not(.disabled):hover {
     transform: scale(1.05);
     transition: transform 0.3s ease-in-out;
     z-index: 1;
@@ -129,9 +129,10 @@ body {
     margin-top: 10px;
    
 }
-.product-button:hover {
+
+/* .product-button:hover {
     background-color: #c0392b;
-}
+} */
 
 /* Pseudo-elements - Sale badge */
 .product-card::before {
@@ -233,7 +234,7 @@ body {
     cursor: pointer;
   }
   
-  .product-button:hover {
+  .product-button:not(.disabled):hover {
     background-color: #45a049;
   }
   
